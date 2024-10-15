@@ -1,0 +1,27 @@
+
+/* FILE: /mnt/data/ai-ide/src/components/VoiceControl/VoiceControl.css */
+
+.voice-control-container {
+  position: fixed;
+  bottom: 100px;
+  left: 20px;
+  background-color: #424242;
+  color: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.voice-control-button {
+  padding: 8px 12px;
+  background-color: #ff7043;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.voice-transcript p {
+  margin-top: 10px;
+  color: #90caf9;
+}

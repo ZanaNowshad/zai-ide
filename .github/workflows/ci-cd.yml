@@ -1,0 +1,50 @@
+
+# FILE: /mnt/data/ai-ide/.github/workflows/ci-cd.yml
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:4.4.6
+        ports:
+          - 27017:27017
+        options: --bind_ip_all
+
+    steps:
+    # Checkout the repository
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Set up Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    # Install dependencies
+    - name: Install dependencies
+      run: npm install
+
+    # Run backend tests
+    - name: Run backend tests
+      run: npm run test:backend
+
+    # Run frontend tests
+    - name: Run frontend tests
+      run: npm run test:frontend
+
+    # Build Electron application
+    - name: Build Electron Application
+      run: npm run build

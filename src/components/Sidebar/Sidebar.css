@@ -1,0 +1,27 @@
+
+/* FILE: /mnt/data/ai-ide/src/components/Sidebar/Sidebar.css */
+.sidebar {
+  width: 250px;
+  background-color: #2e2e2e;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 0.75em;
+  cursor: pointer;
+}
+
+.sidebar ul li:hover {
+  color: #90caf9;
+}

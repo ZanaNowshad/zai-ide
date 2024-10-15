@@ -1,0 +1,40 @@
+
+/* FILE: /mnt/data/ai-ide/src/components/FileExplorer/FileExplorer.css */
+.file-explorer {
+  width: 250px;
+  background-color: #3a3a3a;
+  color: white;
+  padding: 20px;
+}
+
+.file-explorer button {
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  background-color: #424242;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.file-explorer button:disabled {
+  background-color: #616161;
+  cursor: not-allowed;
+}
+
+.file-explorer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.file-explorer li {
+  margin-bottom: 0.75em;
+  cursor: pointer;
+}
+
+.file-explorer li.directory {
+  font-weight: bold;
+}
+
+.file-explorer li:hover {
+  color: #90caf9;
+}

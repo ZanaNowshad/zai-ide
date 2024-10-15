@@ -1,0 +1,80 @@
+
+/* FILE: /mnt/data/ai-ide/src/components/CodeEditor/CodeEditor.css */
+
+.code-editor-container {
+  position: relative;
+  height: calc(100vh - 200px);
+}
+
+.code-editor {
+  height: 100%;
+  background-color: #1e1e1e;
+}
+
+.learning-module-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 8px 12px;
+  margin-left: 10px;
+  background-color: #ffa726;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.cloud-deploy-button,
+.quantum-support-button,
+.ai-assist-button,
+.bug-detect-button,
+.security-audit-button,
+.user-insights-button,
+.language-support-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  margin-left: 10px;
+  padding: 8px 12px;
+  background-color: #90caf9;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.bug-detect-button {
+  background-color: #ff7043;
+}
+
+.security-audit-button {
+  background-color: #66bb6a;
+}
+
+.user-insights-button {
+  background-color: #ffca28;
+}
+
+.language-support-button {
+  background-color: #ab47bc;
+}
+
+.deployment-message,
+.learning-module,
+.ai-suggestion,
+.bug-fix-suggestion,
+.security-suggestion,
+.user-insights,
+.language-support-suggestion,
+.quantum-suggestion {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: #2e2e2e;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  max-width: 300px;
+  margin-bottom: 10px;
+}
