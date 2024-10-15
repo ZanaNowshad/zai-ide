@@ -1,64 +1,75 @@
 
 // FILE: /mnt/data/ai-ide/src/components/VoiceControl/VoiceControl.js
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './VoiceControl.css';
 
-function VoiceControl({ onCommand }) {
-  const [isListening, setIsListening] = useState(false);
-  const [transcript, setTranscript] = useState('');
+function VoiceControl() {
+  const [recording, setRecording] = useState(false);
+  const [voiceCommand, setVoiceCommand] = useState('');
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (!('webkitSpeechRecognition' in window)) {
-      console.error('Voice recognition not supported in this browser.');
-      return;
-    }
+  // Start recording function
+  const startRecording = async () => {
+    setRecording(true);
+    setError('');
 
-    const recognition = new window.webkitSpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.lang = 'en-US';
+    // Logic for starting audio recording using the browser's MediaRecorder API
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      const audioChunks = [];
 
-    recognition.onresult = (event) => {
-      let interimTranscript = '';
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        if (event.results[i].isFinal) {
-          const finalTranscript = event.results[i][0].transcript.trim();
-          setTranscript(finalTranscript);
-          onCommand(finalTranscript);
-        } else {
-          interimTranscript += event.results[i][0].transcript;
+      mediaRecorder.ondataavailable = (event) => {
+        audioChunks.push(event.data);
+      };
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+        const formData = new FormData();
+        formData.append('audio', audioBlob);
+
+        // Sending audio data to the backend for ASR processing
+        try {
+          const response = await fetch('/api/voice-control', {
+            method: 'POST',
+            body: formData,
+          });
+          const responseData = await response.json();
+          setVoiceCommand(responseData.command);
+        } catch (error) {
+          setError('Failed to recognize the audio input');
         }
-      }
-    };
+      };
 
-    recognition.onerror = (event) => {
-      console.error('Voice recognition error:', event.error);
-    };
+      mediaRecorder.start();
 
-    if (isListening) {
-      recognition.start();
-    } else {
-      recognition.stop();
+      setTimeout(() => {
+        mediaRecorder.stop();
+        setRecording(false);
+      }, 5000); // Recording for 5 seconds
+    } catch (error) {
+      setError('Failed to access microphone.');
+      setRecording(false);
     }
-
-    return () => {
-      recognition.stop();
-    };
-  }, [isListening, onCommand]);
-
-  const toggleListening = () => {
-    setIsListening(!isListening);
   };
 
   return (
     <div className="voice-control-container">
-      <button className="voice-control-button" onClick={toggleListening}>
-        {isListening ? 'Stop Listening' : 'Start Voice Control'}
+      <button onClick={startRecording} disabled={recording}>
+        {recording ? 'Recording...' : 'Start Voice Command'}
       </button>
-      <div className="voice-transcript">
-        {transcript && <p>Command: {transcript}</p>}
-      </div>
+      {voiceCommand && (
+        <div className="voice-command-output">
+          <h4>Recognized Command:</h4>
+          <p>{voiceCommand}</p>
+        </div>
+      )}
+      {error && (
+        <div className="voice-command-error">
+          <p>{error}</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -2,26 +2,29 @@
 /* FILE: /mnt/data/ai-ide/src/components/VoiceControl/VoiceControl.css */
 
 .voice-control-container {
-  position: fixed;
-  bottom: 100px;
-  left: 20px;
-  background-color: #424242;
-  color: #ffffff;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.voice-control-button {
-  padding: 8px 12px;
-  background-color: #ff7043;
+button {
+  font-size: 16px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  color: #fff;
 }
 
-.voice-transcript p {
-  margin-top: 10px;
-  color: #90caf9;
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.voice-command-output, .voice-command-error {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
 }

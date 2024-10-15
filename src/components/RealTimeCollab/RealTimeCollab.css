@@ -1,0 +1,18 @@
+
+/* FILE: /mnt/data/ai-ide/src/components/RealTimeCollab/RealTimeCollab.css */
+
+.real-time-collab-container {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.real-time-collab-editor {
+  width: 100%;
+  height: 400px;
+  font-size: 16px;
+  font-family: 'Courier New', Courier, monospace;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
