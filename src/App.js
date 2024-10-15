@@ -7,6 +7,7 @@ import FileExplorer from './components/FileExplorer/FileExplorer';
 import RealTimeCollab from './components/RealTimeCollab/RealTimeCollab';
 import VoiceControl from './components/VoiceControl/VoiceControl';
 import AiLearning from './components/AiLearning/AiLearning';
+import CloudDeployment from './components/CloudDeployment/CloudDeployment';
 import './App.css';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <CodeEditor />
         <RealTimeCollab roomId="default-room" />
         <AiLearning codeContext={codeContext} />
+        <CloudDeployment />
       </div>
       <div className="voice-control-section">
         <VoiceControl />
