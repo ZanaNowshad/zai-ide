@@ -1,14 +1,17 @@
 
 // FILE: /mnt/data/ai-ide/src/App.js
 
-import React from 'react';
+import React, { useState } from 'react';
 import CodeEditor from './components/CodeEditor/CodeEditor';
 import FileExplorer from './components/FileExplorer/FileExplorer';
 import RealTimeCollab from './components/RealTimeCollab/RealTimeCollab';
 import VoiceControl from './components/VoiceControl/VoiceControl';
+import AiLearning from './components/AiLearning/AiLearning';
 import './App.css';
 
 function App() {
+  const [codeContext, setCodeContext] = useState('// Start coding here...');
+
   return (
     <div className="app-container">
       <div className="sidebar">
@@ -17,6 +20,7 @@ function App() {
       <div className="main-editor">
         <CodeEditor />
         <RealTimeCollab roomId="default-room" />
+        <AiLearning codeContext={codeContext} />
       </div>
       <div className="voice-control-section">
         <VoiceControl />
