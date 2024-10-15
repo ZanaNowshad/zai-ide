@@ -8,6 +8,7 @@ import RealTimeCollab from './components/RealTimeCollab/RealTimeCollab';
 import VoiceControl from './components/VoiceControl/VoiceControl';
 import AiLearning from './components/AiLearning/AiLearning';
 import CloudDeployment from './components/CloudDeployment/CloudDeployment';
+import SecurityAssistant from './components/SecurityAssistant/SecurityAssistant';
 import './App.css';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <RealTimeCollab roomId="default-room" />
         <AiLearning codeContext={codeContext} />
         <CloudDeployment />
+        <SecurityAssistant codeContext={codeContext} />
       </div>
       <div className="voice-control-section">
         <VoiceControl />

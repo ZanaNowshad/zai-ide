@@ -6,6 +6,7 @@ const http = require('http');
 const { initializeCollaboration } = require('./services/realTimeCollabService');
 const { getLearningSuggestion } = require('./services/aiLearningService');
 const { deployCode } = require('./services/cloudDeploymentService');
+const { auditCodeForSecurity } = require('./services/securityAssistantService');
 const app = express();
 const server = http.createServer(app);
 
@@ -34,6 +35,17 @@ app.post('/api/deploy', async (req, res) => {
     res.json({ message: deploymentResult });
   } catch (error) {
     res.status(500).json({ message: error });
+  }
+});
+
+// Security Assistant Route
+app.post('/api/security/audit', async (req, res) => {
+  try {
+    const { code } = req.body;
+    const securityReport = await auditCodeForSecurity(code);
+    res.json({ report: securityReport });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
