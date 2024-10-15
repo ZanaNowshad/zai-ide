@@ -19,15 +19,19 @@ function App() {
       <div className="sidebar">
         <FileExplorer />
       </div>
-      <div className="main-editor">
-        <CodeEditor />
-        <RealTimeCollab roomId="default-room" />
-        <AiLearning codeContext={codeContext} />
-        <CloudDeployment />
-        <SecurityAssistant codeContext={codeContext} />
+      <div className="main-content">
+        <div className="editor-section">
+          <CodeEditor />
+          <RealTimeCollab roomId="default-room" />
+        </div>
+        <div className="assistant-section">
+          <AiLearning codeContext={codeContext} />
+          <SecurityAssistant codeContext={codeContext} />
+        </div>
       </div>
-      <div className="voice-control-section">
+      <div className="utilities-section">
         <VoiceControl />
+        <CloudDeployment />
       </div>
     </div>
   );

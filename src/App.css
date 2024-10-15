@@ -1,15 +1,43 @@
 
 /* FILE: /mnt/data/ai-ide/src/App.css */
+
 .app-container {
   display: flex;
-  flex-direction: row;
   height: 100vh;
-  overflow: hidden;
 }
 
-.editor-terminal-container {
+.sidebar {
+  width: 20%;
+  background-color: #f4f4f4;
+  padding: 10px;
+  border-right: 2px solid #ccc;
+}
+
+.main-content {
+  width: 60%;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  background-color: #1e1e1e;
+  padding: 10px;
+}
+
+.editor-section {
+  flex-grow: 1;
+  margin-bottom: 20px;
+}
+
+.assistant-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.utilities-section {
+  width: 20%;
+  background-color: #f4f4f4;
+  padding: 10px;
+  border-left: 2px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
