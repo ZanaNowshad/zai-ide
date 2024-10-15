@@ -7,9 +7,12 @@ import './CodeEditor.css';
 function CodeEditor() {
   const editorRef = useRef(null);
   const [editorInstance, setEditorInstance] = useState(null);
-  const [qiskitSuggestion, setQiskitSuggestion] = useState('');
-  const [qiskitSimulationResult, setQiskitSimulationResult] = useState('');
+  const [aiSuggestion, setAiSuggestion] = useState('');
+  const [bugFixSuggestion, setBugFixSuggestion] = useState('');
+  const [securitySuggestion, setSecuritySuggestion] = useState('');
+  const [deploymentMessage, setDeploymentMessage] = useState('');
 
+  // Setting up Monaco Editor
   useEffect(() => {
     if (editorRef.current) {
       const editor = monaco.editor.create(editorRef.current, {
@@ -17,47 +20,77 @@ function CodeEditor() {
         language: 'javascript',
         theme: 'vs-dark',
         automaticLayout: true,
+        wordWrap: 'on',
+        minimap: {
+          enabled: true,
+        },
+        fontSize: 14,
+        smoothScrolling: true,
+        scrollBeyondLastLine: false,
       });
       setEditorInstance(editor);
+
+      return () => {
+        if (editor) {
+          editor.dispose();
+        }
+      };
     }
   }, []);
 
-  // Function to request Qiskit coding assistance
-  const handleQiskitSupport = async () => {
+  // Function to request AI coding assistance
+  const handleAIAssist = async () => {
     if (editorInstance) {
-      const prompt = editorInstance.getValue();
-
+      const codeContext = editorInstance.getValue();
       try {
-        const response = await fetch('/api/qiskit/assist', {
+        const response = await fetch('/api/ai/pair/pair', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt }),
+          body: JSON.stringify({ codeContext, prompt: 'Suggest improvements' }),
         });
 
         const responseData = await response.json();
-        setQiskitSuggestion(responseData.qiskitAssistance);
+        setAiSuggestion(responseData.suggestion);
       } catch (error) {
-        console.error('Error fetching Qiskit coding assistance:', error);
+        console.error('Error fetching AI suggestion:', error);
       }
     }
   };
 
-  // Function to run Qiskit code
-  const handleQiskitRun = async () => {
+  // Function to request bug detection and healing
+  const handleBugDetection = async () => {
     if (editorInstance) {
-      const code = editorInstance.getValue();
-
+      const codeContext = editorInstance.getValue();
       try {
-        const response = await fetch('/api/qiskit/run', {
+        const response = await fetch('/api/ai/bug-detect/bug-detect', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code }),
+          body: JSON.stringify({ codeContext }),
         });
 
         const responseData = await response.json();
-        setQiskitSimulationResult(responseData.result);
+        setBugFixSuggestion(responseData.suggestion);
       } catch (error) {
-        console.error('Error running Qiskit code:', error);
+        console.error('Error detecting bugs:', error);
+      }
+    }
+  };
+
+  // Function to request security audit
+  const handleSecurityAudit = async () => {
+    if (editorInstance) {
+      const codeContext = editorInstance.getValue();
+      try {
+        const response = await fetch('/api/security/audit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ codeContext }),
+        });
+
+        const responseData = await response.json();
+        setSecuritySuggestion(responseData.suggestion);
+      } catch (error) {
+        console.error('Error performing security audit:', error);
       }
     }
   };
@@ -65,22 +98,31 @@ function CodeEditor() {
   return (
     <div className="code-editor-container">
       <div className="code-editor" ref={editorRef}></div>
-      <button className="qiskit-support-button" onClick={handleQiskitSupport}>
-        Get Qiskit Assistance
+      <button className="ai-assist-button" onClick={handleAIAssist}>
+        Get AI Suggestion
       </button>
-      <button className="qiskit-run-button" onClick={handleQiskitRun}>
-        Run Qiskit Code
+      <button className="bug-detect-button" onClick={handleBugDetection}>
+        Detect & Heal Bugs
       </button>
-      {qiskitSuggestion && (
-        <div className="qiskit-suggestion">
-          <h4>Qiskit Suggestion:</h4>
-          <p>{qiskitSuggestion}</p>
+      <button className="security-audit-button" onClick={handleSecurityAudit}>
+        Security Audit
+      </button>
+      {aiSuggestion && (
+        <div className="ai-suggestion">
+          <h4>AI Suggestion:</h4>
+          <p>{aiSuggestion}</p>
         </div>
       )}
-      {qiskitSimulationResult && (
-        <div className="qiskit-simulation-result">
-          <h4>Qiskit Simulation Result:</h4>
-          <p>{qiskitSimulationResult}</p>
+      {bugFixSuggestion && (
+        <div className="bug-fix-suggestion">
+          <h4>Bug Fix Suggestion:</h4>
+          <p>{bugFixSuggestion}</p>
+        </div>
+      )}
+      {securitySuggestion && (
+        <div className="security-suggestion">
+          <h4>Security Suggestion:</h4>
+          <p>{securitySuggestion}</p>
         </div>
       )}
     </div>

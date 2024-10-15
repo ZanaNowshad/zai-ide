@@ -4,52 +4,38 @@ import React, { useState } from 'react';
 import './AIChatPopup.css';
 
 function AIChatPopup() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [input, setInput] = useState('');
-  const [messages, setMessages] = useState([]);
+  const [chatInput, setChatInput] = useState('');
+  const [chatResponse, setChatResponse] = useState('');
 
-  const handleSend = async () => {
-    if (input.trim()) {
-      // Display user message
-      const newMessages = [...messages, { sender: 'user', text: input }];
-      setMessages(newMessages);
+  const handleChatSubmit = async () => {
+    if (chatInput.trim()) {
+      try {
+        const response = await fetch('/api/ai/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: chatInput }),
+        });
 
-      // Mock API call to OpenAI service
-      const response = await fetch('/api/ai/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: input }),
-      });
-
-      const responseData = await response.json();
-      setMessages([...newMessages, { sender: 'ai', text: responseData.code }]);
-      setInput('');
+        const responseData = await response.json();
+        setChatResponse(responseData.response);
+      } catch (error) {
+        console.error('Error fetching chat response:', error);
+      }
     }
   };
 
   return (
-    <div className={`ai-chat-popup ${isOpen ? 'open' : ''}`}>
-      <button className="toggle-chat" onClick={() => setIsOpen(!isOpen)}>
-        {isOpen ? 'Close Chat' : 'Ask AI'}
-      </button>
-      {isOpen && (
-        <div className="chat-window">
-          <div className="messages">
-            {messages.map((msg, index) => (
-              <div key={index} className={`message ${msg.sender}`}>
-                {msg.text}
-              </div>
-            ))}
-          </div>
-          <div className="input-bar">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask something..."
-            />
-            <button onClick={handleSend}>Send</button>
-          </div>
+    <div className="ai-chat-popup-container">
+      <textarea
+        value={chatInput}
+        onChange={(e) => setChatInput(e.target.value)}
+        placeholder="Ask something..."
+      />
+      <button onClick={handleChatSubmit}>Ask AI</button>
+      {chatResponse && (
+        <div className="chat-response">
+          <h4>AI Response:</h4>
+          <p>{chatResponse}</p>
         </div>
       )}
     </div>
