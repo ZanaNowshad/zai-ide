@@ -7,9 +7,9 @@ const axios = require('axios');
 exports.quantumCodingSupport = async (prompt) => {
     try {
         const response = await axios.post('https://api.openai.com/v1/completions', {
-            prompt: \`Provide assistance for writing quantum algorithms:\n\n\${prompt}\`,
+            prompt: \`Provide suggestions for quantum algorithm development:\n\n\${prompt}\`,
             model: 'text-davinci-003',
-            max_tokens: 200
+            max_tokens: 300
         });
         return response.data.choices[0].text;
     } catch (error) {

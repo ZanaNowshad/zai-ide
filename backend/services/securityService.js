@@ -7,9 +7,9 @@ const axios = require('axios');
 exports.auditCodeSecurity = async (codeContext) => {
     try {
         const response = await axios.post('https://api.openai.com/v1/completions', {
-            prompt: \`Analyze the following code for security vulnerabilities and suggest improvements:\n\n\${codeContext}\`,
+            prompt: \`Audit the following code for security vulnerabilities:\n\n\${codeContext}\`,
             model: 'text-davinci-003',
-            max_tokens: 200
+            max_tokens: 300
         });
         return response.data.choices[0].text;
     } catch (error) {
